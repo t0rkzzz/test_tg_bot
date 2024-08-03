@@ -1,0 +1,1 @@
+insert into bot.user(telegram_id) values ($1) returning id

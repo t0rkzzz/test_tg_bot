@@ -1,0 +1,1 @@
+insert into bot.note(user_id) values ($1) returning id

@@ -1,0 +1,1 @@
+update bot.note set text = $1 where id = $2

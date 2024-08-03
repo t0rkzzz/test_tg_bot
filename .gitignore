@@ -1,0 +1,6 @@
+**/.DS_Store
+.venv/
+.vscode/
+__pycache__/
+docker-compose.override.yml
+.env

@@ -1,0 +1,37 @@
+services:
+  bot:
+    build:
+      context: .
+    env_file:
+      - .env
+    environment:
+      - PG_HOST=postgres
+    depends_on:
+      liquibase:
+        condition: service_completed_successfully
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_DB: ${PG_DATABASE}
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${PG_USER}", "-d", "bot"]
+
+  liquibase:
+    image: liquibase:latest
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./migrations/sql:/liquibase/sql
+      - ./migrations/changelog.xml:/liquibase/changelog.xml
+    environment:
+      - LIQUIBASE_COMMAND_CHANGELOG_FILE=changelog.xml
+    entrypoint: >
+      liquibase update
+      --url=jdbc:postgresql://postgres:${PG_PORT}/${PG_DATABASE}
+      --password=${PG_PASSWORD}
+      --username=${PG_USER}

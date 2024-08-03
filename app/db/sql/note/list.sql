@@ -1,0 +1,1 @@
+select * from bot.note where user_id = $1 and "text" is not null order by reminder_time

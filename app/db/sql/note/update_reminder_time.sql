@@ -1,0 +1,1 @@
+update bot.note set reminder_time = $1 where id = $2

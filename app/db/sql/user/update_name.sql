@@ -1,0 +1,1 @@
+update bot.user set name = $1 where telegram_id = $2
